@@ -28,6 +28,8 @@ ALLOWED_HOSTS = []
 # DEBUG = False
 # ALLOWED_HOSTS = ['127.0.0.1']
 
+SITE_ID = 1
+
 # Определение приложения
 
 INSTALLED_APPS = [
@@ -38,7 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'django_extensions',
+
+    'appAccounts.apps.AppaccountsConfig',
+    'appBoard.apps.AppboardConfig',
+    'appSubscriptions.apps.AppsubscriptionsConfig',
 
 ]
 
@@ -50,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'BulletinBoard.urls'
@@ -65,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'django.template.context_processors.request',
             ],
         },
     },
