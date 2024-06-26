@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'django_extensions',
+    'ckeditor',
 
     'appAccounts.apps.AppaccountsConfig',
     'appBoard.apps.AppboardConfig',
@@ -137,3 +138,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'appAccounts.User'
