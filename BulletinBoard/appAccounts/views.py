@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+
+def home_page(request):
+    """
+    Представление для главной страницы с приветственным сообщением.
+    """
+    return render(request, 'home.html', {})

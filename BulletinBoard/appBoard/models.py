@@ -11,9 +11,14 @@ class Category(models.Model):
     Метод __str__ выводит название категории
     """
     name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=2, unique=True, db_index=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class Post(models.Model):
@@ -34,18 +39,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField('Заголовок', max_length=255)
     content = RichTextField('Объявление', blank=True)
-    category = models.CharField('Категория', choices=[
-        ('TN', 'Танки'),
-        ('KH', 'Хилы'),
-        ('DD', 'ДД'),
-        ('ME', 'Торговцы'),
-        ('GU', 'Гилдмастеры'),
-        ('QU', 'Квестгиверы'),
-        ('BL', 'Кузнецы'),
-        ('TA', 'Кожевники'),
-        ('PB', 'Зельевары'),
-        ('SM', 'Мастера заклинаний'),
-    ], max_length=2)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,
+                                 related_name='posts')
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
@@ -54,8 +49,8 @@ class Post(models.Model):
         return f'{self.title}, {self.author}'
 
     class Meta:
-        verbose_name = 'Запись'
-        verbose_name_plural = 'Записи'
+        verbose_name = 'Объявление'
+        verbose_name_plural = 'Объявления'
 
 
 class Response(models.Model):
@@ -77,3 +72,7 @@ class Response(models.Model):
 
     def __str__(self):
         return f"Отклик от {self.author} на '{self.post.title}' в {self.created_at}"
+
+    class Meta:
+        verbose_name = 'Отклик'
+        verbose_name_plural = 'Отклики'

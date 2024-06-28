@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 Полный список настроек и их значений см.
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Создайте пути внутри проекта следующим образом: BASE_DIR/'subdir'.
@@ -70,7 +70,7 @@ ROOT_URLCONF = 'BulletinBoard.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'appAccounts/templates/appAccounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,3 +139,57 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'appAccounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо
+# формы по умолчанию, необходимо добавить.
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+# Блок кода настроек нашего проекта работы с почтой (Yandex-почтой)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# 'django.core.mail.backends.console.EmailBackend' - для писем в терминал
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# класс отправителя сообщений (у нас установлено значение по умолчанию,
+# а значит, эта строчка не обязательна)
+EMAIL_HOST = 'smtp.yandex.ru'
+# Хост почтового сервера — это адрес или доменное имя сервера, который
+# обрабатывает и отправляет электронную почту.
+# Хост почтового сервера может быть использован как для отправки, так и для
+# получения почты.
+EMAIL_PORT = 465
+
+EMAIL_HOST_USER = "AndreyTestSF"
+# логин пользователя почтового сервера
+EMAIL_HOST_PASSWORD = "zuqvkobqbkixymje"  # noqa
+# пароль пользователя почтового сервера
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "AndreyTestSF@yandex.ru"
+# Почтовый адрес отправителя по умолчанию
+# Последняя строчка будет использоваться как значение по умолчанию
+# для поля from в письме.
+# То есть будет отображаться в поле «отправитель» у получателя письма.
+
+SERVER_EMAIL = "AndreyTestSF@yandex.ru"
+# SERVER_EMAIL содержит адрес почты, от имени которой будет отправляться письмо
+# при вызове mail_admins и mail_manager.
+# А переменная MANAGERS будет хранить список имён менеджеров и адресов
+# их почтовых ящиков.
+
+ADMINS = (
+    ('ADMIN', 'ADMIN@zhiza.net'),
+    ('admin', 'admin@mail.com'),
+)
+
+EMAIL_SUBJECT_PREFIX = 'Bulletin Board'
