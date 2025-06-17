@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои отклики{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Мои отклики</h1>
+    
+    {% if responses %}
+        <div class="list-group">
+            {% for response in responses %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <!-- Заголовок объявления -->
+                            <h3 class="h5 mb-3">
+                                <a href="{% url 'board:post_detail' response.post.pk %}" class="text-decoration-none">
+                                    {{ response.post.title }}
+                                </a>
+                            </h3>
+
+                            <!-- Текст отклика -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="h6 mb-2">Сообщение отклика:</h4>
+                                    <p class="mb-0">{{ response.content }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Информация об авторе и дате -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-muted">
+                                    <small>
+                                        <i class="fas fa-user"></i> Автор: {{ response.author.username }} | 
+                                        <i class="fas fa-clock"></i> {{ response.created_at|date:"d.m.Y H:i" }}
+                                    </small>
+                                </div>
+                                <!-- Кнопка принятия отклика -->
+                                <form method="post" action="{% url 'board:response_accept' response.pk %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="fas fa-check"></i> Принять отклик
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> У вас пока нет откликов на объявления.
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

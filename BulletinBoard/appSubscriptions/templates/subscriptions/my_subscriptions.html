@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои подписки{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Мои подписки</h2>
+    
+    {% if subscriptions %}
+        <div class="list-group">
+            {% for subscription in subscriptions %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">{{ subscription.category }}</h5>
+                    </div>
+                    <div>
+                        <a href="{% url 'subscriptions:unsubscribe' subscription.category %}" 
+                           class="btn btn-danger btn-sm">
+                            Отписаться
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            У вас пока нет подписок на категории.
+        </div>
+    {% endif %}
+    
+    <div class="mt-3">
+        <a href="{% url 'board:index' %}" class="btn btn-primary">
+            Вернуться к списку категорий
+        </a>
+    </div>
+</div>
+{% endblock %} 

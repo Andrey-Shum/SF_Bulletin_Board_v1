@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактирование объявления
+    {% else %}
+        Новое объявление
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>
+        {% if form.instance.pk %}
+            Редактирование объявления
+        {% else %}
+            Новое объявление
+        {% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="alert alert-danger">
+                    {{ form.title.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.category.id_for_label }}" class="form-label">Категория</label>
+            {{ form.category }}
+            {% if form.category.errors %}
+                <div class="alert alert-danger">
+                    {{ form.category.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.content.id_for_label }}" class="form-label">Содержание</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+                <div class="alert alert-danger">
+                    {{ form.content.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Изображение</label>
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="alert alert-danger">
+                    {{ form.image.errors }}
+                </div>
+            {% endif %}
+            <div class="form-text">Поддерживаемые форматы: JPG, PNG, GIF</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.video.id_for_label }}" class="form-label">Видео</label>
+            {{ form.video }}
+            {% if form.video.errors %}
+                <div class="alert alert-danger">
+                    {{ form.video.errors }}
+                </div>
+            {% endif %}
+            <div class="form-text">Поддерживаемые форматы: MP4, WebM</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+                Сохранить изменения
+            {% else %}
+                Создать объявление
+            {% endif %}
+        </button>
+        
+        <a href="{% url 'board:post_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %} 
